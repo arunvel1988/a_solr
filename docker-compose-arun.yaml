@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+  solr-spl:
+    image: arunvel1988/arun_solr
+    ports: 
+      - target: 8983
+        published: 8777
+        protocol: tcp
+        mode: host
+    volumes:
+      - data:/var/solr
+    deploy:
+      mode: global
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: continue
+        monitor: 60s
+max_failure_ratio: 0.3
